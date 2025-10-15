@@ -22,19 +22,32 @@ public class SecurityConfig {
         return repository;
     }
 
-    @Bean
-    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
-            http
-                .authorizeHttpRequests(auth -> auth              		
-                	.requestMatchers("/api/form").permitAll()
-                	.requestMatchers("/api/submit").authenticated()
-                    .anyRequest().authenticated()
-                )
-                .csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository()))
-                .formLogin(form -> form.defaultSuccessUrl("/api/form", true).permitAll());     
-            
-            
-            return http.build();
-                    
-    }
+	
+	  @Bean protected SecurityFilterChain configure(HttpSecurity http) throws
+	  Exception { 
+		  http .authorizeHttpRequests(auth -> auth
+	  .requestMatchers("/api/form").permitAll()
+	  .requestMatchers("/api/submit").authenticated() .anyRequest().authenticated()
+	  ) .csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository()))
+	  .formLogin(form -> form.defaultSuccessUrl("/api/form", true).permitAll());
+	  
+	  
+	  return http.build();
+	  
+	  }
+	 
+    
+	/*
+	 * @Bean protected SecurityFilterChain configure(HttpSecurity http) throws
+	 * Exception { http .authorizeHttpRequests(auth -> auth
+	 * .requestMatchers("/api/form").permitAll()
+	 * .requestMatchers("/api/submit").authenticated() .anyRequest().authenticated()
+	 * ) .csrf(csrf -> csrf.disable()) .formLogin(form ->
+	 * form.defaultSuccessUrl("/api/form", true).permitAll());
+	 * 
+	 * 
+	 * return http.build();
+	 * 
+	 * }
+	 */
 }
