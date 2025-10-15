@@ -1,5 +1,6 @@
 package com.securecode.ssrf;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -13,11 +14,6 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CsrfTokenRepository csrfTokenRepository;
-
-    SecurityConfig(CsrfTokenRepository csrfTokenRepository) {
-        this.csrfTokenRepository = csrfTokenRepository;
-    }
 
     @Bean
     public CsrfTokenRepository csrfTokenRepository() {
@@ -34,8 +30,10 @@ public class SecurityConfig {
                 	.requestMatchers("/api/submit").authenticated()
                     .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository))
-                .formLogin(Customizer.withDefaults());         
+                .csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository()))
+                .formLogin(form -> form.defaultSuccessUrl("/api/form", true).permitAll());     
+            
+            
             return http.build();
                     
     }
